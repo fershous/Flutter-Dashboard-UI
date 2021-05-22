@@ -25,7 +25,7 @@ class Header extends StatelessWidget {
         Expanded(
           child: SearchField()
         ),
-        Spacer( flex: 2),
+        Spacer( flex: 1),
         LeftActions()
       ],
     );

@@ -92,8 +92,8 @@ class ProjectCard extends StatelessWidget {
           ProgressLine(),
           Row(
             children: [
-              Expanded(
-                flex: 2,
+              Container(
+                width: 50,
                 child: Stack(
                   children: [
                     CircleAvatar(
