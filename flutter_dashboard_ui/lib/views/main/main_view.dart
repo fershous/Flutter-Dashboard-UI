@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_ui/responsive.dart';
 import 'package:flutter_dashboard_ui/views/main/dashboard/dasboard_view.dart';
 
 class MainView extends StatefulWidget {
@@ -19,6 +20,7 @@ class _MainViewState extends State<MainView> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (Responsive.isDesktop(context))
             Expanded(
               // Default flex 1
               child: SingleChildScrollView(

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_ui/responsive.dart';
 
 import '../../../../constants.dart';
 
 class ProjectsBox extends StatelessWidget {
   const ProjectsBox({
     Key key,
-    @required this.size,
   }) : super(key: key);
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
+
+    final Size size = MediaQuery.of(context).size;
+
     return Expanded(
       flex: 5,
       child: Container(
-        padding: EdgeInsets.only(top: defaultPadding*2, left: defaultPadding*2, right: defaultPadding*2),
+        padding: EdgeInsets.only(top: defaultPadding*2, left: Responsive.isMobile(context) ? defaultPadding : defaultPadding*2, right: Responsive.isMobile(context) ? defaultPadding : defaultPadding*2),
         height: size.height*0.84,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -23,26 +24,94 @@ class ProjectsBox extends StatelessWidget {
         ),
         child: Column(
           children: [
-            ProjectsHeader(size: size),
+            ProjectsHeader(),
             SizedBox(height: defaultPadding*2),
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: defaultPadding,
-                mainAxisSpacing: defaultPadding,
-                children: [
-                  ProjectCard(),
-                  ProjectCard(),
-                  ProjectCard(),
-                  ProjectCard(),
-                  ProjectCard(),
-                  ProjectCard(),
-                ]
-              ),
+              child: Responsive(
+                mobile: ProjectInfoCardGridView(crossAxisCount: 1, childAspectRatio: 1.8), 
+                tablet: ProjectInfoCardGridView(crossAxisCount: 2),
+                desktop: ProjectInfoCardGridView(crossAxisCount: 3)),
             )
           ],
         ),
       )
+    );
+  }
+}
+
+class ProjectInfoCardGridView extends StatelessWidget {
+  const ProjectInfoCardGridView({
+    Key key, 
+    @required this.crossAxisCount, 
+    this.childAspectRatio = 1.0,
+  }) : super(key: key);
+
+  final int crossAxisCount;
+  final double childAspectRatio;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      crossAxisCount: crossAxisCount,
+      childAspectRatio: childAspectRatio,
+      crossAxisSpacing: defaultPadding,
+      mainAxisSpacing: defaultPadding,
+      children: [
+        ProjectCard(),
+        ProjectCard(),
+        ProjectCard(),
+        ProjectCard(),
+        ProjectCard(),
+        ProjectCard(),
+      ]
+    );
+  }
+}
+
+class ProjectTIle extends StatelessWidget {
+  const ProjectTIle({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(254,228,203, 1.0),
+        borderRadius: BorderRadius.circular(20)
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Web Designing',
+                style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+              ),
+              SizedBox(height: 10),
+              Text('Prototyping'),
+              Text(
+                'December 10, 2020',
+                style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .copyWith(
+                              color: Colors.grey
+                            ),
+              ),
+            ]
+          ),
+          Expanded(
+            child: ProgressLine()
+          )
+        ],
+      ),
     );
   }
 }
@@ -209,31 +278,26 @@ class ProgressLine extends StatelessWidget {
 class ProjectsHeader extends StatelessWidget {
   const ProjectsHeader({
     Key key,
-    @required this.size,
   }) : super(key: key);
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return Column(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
           children: [
             buildProjects(context),
-            SizedBox(height: defaultPadding*2),
-            buildProgress(context)
+            Spacer(),
+            buildDate(context)
           ],
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        SizedBox(height: defaultPadding,),
+        Row(
           children: [
-            buildDate(context),
-            SizedBox(height: defaultPadding*2),
-            buildButtons()
+            buildProgress(context),
+            Spacer(),
+            if (!Responsive.isMobile(context))
+              buildButtons()
           ]
         )
       ]
@@ -264,7 +328,7 @@ class ProjectsHeader extends StatelessWidget {
                                       .textTheme
                                       .headline6
                                       .copyWith(
-                                        fontSize: 28
+                                        fontSize: Responsive.isMobile != null ? 20 : 28,
                                       ),
                         ),
                         Text(
@@ -273,7 +337,7 @@ class ProjectsHeader extends StatelessWidget {
                                       .textTheme
                                       .bodyText2
                                       .copyWith(
-                                        fontSize: 18,
+                                        fontSize: Responsive.isMobile != null ? 15 : 18,
                                         color: Colors.grey.shade700
                                       ),
                         )
@@ -289,7 +353,7 @@ class ProjectsHeader extends StatelessWidget {
                                       .textTheme
                                       .headline6
                                       .copyWith(
-                                        fontSize: 28
+                                        fontSize: Responsive.isMobile != null ? 20 : 28
                                       ),
                         ),
                         Text(
@@ -298,7 +362,7 @@ class ProjectsHeader extends StatelessWidget {
                                       .textTheme
                                       .bodyText2
                                       .copyWith(
-                                        fontSize: 18,
+                                        fontSize: Responsive.isMobile != null ? 15 : 18,
                                         color: Colors.grey.shade700
                                       ),
                         )
@@ -314,7 +378,7 @@ class ProjectsHeader extends StatelessWidget {
                                       .textTheme
                                       .headline6
                                       .copyWith(
-                                        fontSize: 28
+                                        fontSize: Responsive.isMobile != null ? 20 : 28
                                       ),
                         ),
                         Text(
@@ -323,7 +387,7 @@ class ProjectsHeader extends StatelessWidget {
                                       .textTheme
                                       .bodyText2
                                       .copyWith(
-                                        fontSize: 18,
+                                        fontSize: Responsive.isMobile != null ? 15 : 18,
                                         color: Colors.grey.shade700,
                                       ),
                         )

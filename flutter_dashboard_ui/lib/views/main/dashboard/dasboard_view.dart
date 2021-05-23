@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_ui/responsive.dart';
 
 import '../../../constants.dart';
 
@@ -12,8 +13,6 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
-
     return SafeArea(
       child: SingleChildScrollView(
         padding: EdgeInsets.all(defaultPadding),
@@ -23,11 +22,13 @@ class DashboardView extends StatelessWidget {
             SizedBox(height: defaultPadding * 2.5),
             Row(
               children: [
-                ProjectsBox(size: size),
-                SizedBox(width: defaultPadding,),
-                ClientMessages(size: size),
+                ProjectsBox(),
+                if (!Responsive.isMobile(context))
+                  SizedBox(width: defaultPadding,),
+                if (!Responsive.isMobile(context))
+                  ClientMessages(),
               ],
-            )
+            ),
           ],
         ),
       ),

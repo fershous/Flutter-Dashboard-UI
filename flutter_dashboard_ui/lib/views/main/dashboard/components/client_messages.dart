@@ -7,13 +7,13 @@ import '../../../../constants.dart';
 class ClientMessages extends StatelessWidget {
   const ClientMessages({
     Key key,
-    @required this.size,
   }) : super(key: key);
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
+
+    final Size size = MediaQuery.of(context).size;
+
     return Expanded(
       flex: 2,
       child: Container(

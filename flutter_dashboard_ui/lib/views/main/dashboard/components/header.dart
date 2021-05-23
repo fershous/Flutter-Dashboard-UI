@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard_ui/responsive.dart';
 
 import '../../../../constants.dart';
 
@@ -26,7 +27,8 @@ class Header extends StatelessWidget {
           child: SearchField()
         ),
         Spacer( flex: 1),
-        LeftActions()
+        if (!Responsive.isMobile(context)) 
+          LeftActions()
       ],
     );
   }
